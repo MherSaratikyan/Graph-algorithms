@@ -1,26 +1,15 @@
 #include <iostream>
-#include <array>
+#include <vector>
 #include <queue>
 
-int main(){
-   const size_t numberOfVertices{6};
+ //bfs algorithm
 
-   //initialization of the adjacency matrix
-   std::array<std::array<int,numberOfVertices>,numberOfVertices> graph{
-        1, 0, 0, 1, 1, 0,
-        0, 1, 0, 0, 1, 1,
-        0, 0, 1, 1, 0, 1,
-        0, 1, 0, 0, 0, 1,
-        0, 0, 1, 1, 0, 1,
-        1, 0, 1, 0, 0, 0
-   };
-
-    //bfs algorithm
-   std::array<bool,numberOfVertices> visitedNodes;
-
+void  breadth_first_search(const std::vector<std::vector<int>>& graph, int root){
+     int numOfVertices = graph.size();
+     std::vector<bool> visitedNodes(numOfVertices);
    std::queue<int> q;
 
-    int rootNode{0};
+    int rootNode{root};
    //pushing the root node (node #0) into the queue
    q.push(rootNode);
 
@@ -31,13 +20,32 @@ int main(){
         int node{q.front()};
         std::cout<<node<<' ';
         q.pop();
-        for(int adjacent{0}; adjacent < numberOfVertices;++adjacent){
-            if((graph[node][adjacent] == 1) && (!visitedNodes[adjacent])){
+        for(int adjacent{0}; adjacent < numOfVertices;++adjacent){
+             //visiting all unvisited neighbours of the current node
+            if((graph[node][adjacent] == 1) && (!visitedNodes[adjacent])){ 
                 visitedNodes[adjacent] = true;
                 q.push(adjacent);
             }
         }
    }
+}
+
+
+int main(){
+   const size_t numberOfVertices{6};
+
+   //initialization of the adjacency matrix
+   std::vector<std::vector<int>> graph{
+          { 1, 0, 0, 1, 1, 0},
+          { 0, 1, 0, 0, 1, 1},
+          { 0, 0, 1, 1, 0, 1},
+          { 0, 1, 0, 0, 0, 1},
+          {0, 0, 1, 1, 0, 1},
+          {1, 0, 1, 0, 0, 0}
+   };
+
+   
+   breadth_first_search(graph,0);
 
 
 }
